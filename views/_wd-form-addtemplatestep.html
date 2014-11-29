@@ -24,8 +24,7 @@
                 <!--</div>-->
             <!--</div>-->
         </div>
-        <div id="messages" ng-show="message">{{ message }}</div>
-        <div class="container" ng-controller="FormComponentsController">
+        <div class="container" ng-controller="FormObservationTemplateStepController">
             <div class="panel panel-midnightblue">
                 <div class="panel-heading">
                     <h4>Add New Observation Step</h4>
@@ -37,7 +36,7 @@
                 </div>
                 <div class="panel-body collapse in">
                     <form name="frmTemplateStep"  ng-submit ="processForm()" class="form-horizontal row-border">
-                        <div id="name-group" class="form-group" ng-class="{ 'has-error' : errorName }">
+                        <div id="name-group" class="form-group">
                             <div class="form-group" id="StepDescription">
                                 <label  class="col-sm-3 control-label">Step Description:</label>
                                 <div class="col-sm-6">
@@ -77,11 +76,17 @@
                                     </div>
                                 </div>
                             </div>
-                        <div ng-repeat="option in formData.Options"  ng-show="formData.Type=='Text'">
+                            <div ng-repeat="option in formData.Options"  ng-show="formData.Type=='Text'">
                             <div class="form-group" id={{element.id}}>
                                 <label  class="col-sm-3 control-label">Option Text</label>
                                 <div class="col-sm-2">
-                                    <input type="text" id="OptionName" ng-model="option.Name" class="form-control" />
+                                    <input
+                                            name="OptionText"
+                                            type="text"
+                                            id="OptionName"
+                                            ng-model="option.Name"
+                                            placeholder="Option Text"
+                                            class="form-control" />
                                 </div>
                                 <div>
                                     <label class="radio-inline">
@@ -97,23 +102,23 @@
                             </div>
                         </div>
                         <div id="showNumbersForm" ng-show="formData.Type=='Numbers'">
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Show Defect</label>
-                            <div class="col-sm-6">
-                                <div class="radio">
-                                    <label>
-                                        <input icheck type="radio" name="showDefect" id="showDefectYes" ng-model="formData.ShowDefect" value="Yes" checked>
-                                       Yes
-                                    </label>
-                                </div>
-                                <div class="radio">
-                                    <label>
-                                        <input icheck type="radio" name="showDefect" id="showDefectNo" ng-model="formData.ShowDefect" value="No">
-                                       No
-                                    </label>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Show Defect</label>
+                                <div class="col-sm-6">
+                                    <div class="radio">
+                                        <label>
+                                            <input icheck type="radio" name="showDefect" id="showDefectYes" ng-model="formData.ShowDefect" value="Yes" checked>
+                                           Yes
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input icheck type="radio" name="showDefect" id="showDefectNo" ng-model="formData.ShowDefect" value="No">
+                                           No
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">LSL:</label>
                             <div class="col-sm-6">
@@ -144,7 +149,7 @@
                                 <div class="col-sm-6 col-sm-offset-3">
                                     <div class="btn-toolbar">
                                         <button class="btn-primary btn">Submit</button>
-                                        <button class="btn-default btn">Cancel</button>
+                                        <button class="btn-default btn" ng-click="cancelStep($event)">Cancel</button>
                                     </div>
                                 </div>
                             </div>

@@ -58,7 +58,10 @@ angular
     'ngRoute',
     'ngAnimate',
     'theme.auth-interceptor',
-    'theme.auth-service'
+    'theme.auth-service',
+    'theme.form-observationtemplatestep',
+    'theme.form-itemupload',
+    'theme.tables-ng-itemgrid'
   ])
   .controller('MainController', ['$scope', '$global', '$timeout', 'progressLoader', '$location', function ($scope, $global, $timeout, progressLoader, $location) {
     $scope.style_fixedHeader = $global.get('fixedHeader');

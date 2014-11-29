@@ -19,7 +19,7 @@ angular
                 },
                 {
                     label:'Edit Items',
-                    url:'#/_wd-tables-data'
+                    url:'#/_wd-tables-items'
                 }
             ]
             //label: 'Layout Options',

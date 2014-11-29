@@ -2,7 +2,7 @@
 
 angular
   .module('theme.form-components',['angularFileUpload'])
-  .controller('FormComponentsController', ['$scope', '$http', function ($scope, $http) {
+  .controller('FormComponentsController', ['$scope', '$http','pinesNotifications', function ($scope, $http, pinesNotifications) {
     $scope.switchStatus = 1;
     $scope.switchStatus2 = 1;
     $scope.switchStatus3 = 1;
@@ -18,15 +18,23 @@ angular
      $scope.processForm = function() {
             $http.post('http://localhost.fiddler:50619/api/ObservationTemplateSteps', $scope.formData)
                 .success(function(data) {
-                    console.log(data);
+                    $scope.message = data;
+                    $scope.frmTemplateStep.$setPristine();
+                    $scope.formData = {Options:[{}]};
+                    pinesNotifications.notify({
+                        title: 'Success',
+                        text: 'Observation step ' + $scope.message.Description + ' added successfully!',
+                        type: 'success'
+                    })
 
                     if (!data.success) {
-                        // if not successful, bind errors to error variables
-                       // $scope.errorName = data.errors.name;
-                       // $scope.errorSuperhero = data.errors.superheroAlias;
+                        pinesNotifications.error({
+                            title: 'Error',
+                            text: 'There was a problem ' + $scope.message,
+                            type: 'success'
+                        })
                     } else {
                         // if successful, bind success message to message
-                        $scope.message = data.message;
                     }
                 });
         };
@@ -39,6 +47,12 @@ angular
             $scope.formData.Options.push({id:counter})
             $event.preventDefault();
             };
+
+        $scope.cancelStep = function($event){
+            $scope.frmTemplateStep.$setPristine();
+            $scope.formData = {Options:[{}]};
+            $event.preventDefault();
+        }
 
 
 
