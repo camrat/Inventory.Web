@@ -1,0 +1,213 @@
+        <div id="page-heading">
+            <ol class="breadcrumb">
+                <li><a href="#/">Dashboard</a></li>
+                <li>Observation Templates</li>
+                <li class="active">Add New Step</li>
+            </ol>
+
+            <h1>Add New Step</h1>
+            <!--<div class="options">-->
+                <!--<div class="btn-toolbar">-->
+                    <!--&lt;!&ndash;<div class="btn-group" dropdown>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<button type="button" class="btn btn-default dropdown-toggle">&ndash;&gt;-->
+                            <!--&lt;!&ndash;Export as <span class="caret"></span>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</button>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<ul class="dropdown-menu" role="menu">&ndash;&gt;-->
+                          <!--&lt;!&ndash;<li><a href="#">Action</a></li>&ndash;&gt;-->
+                          <!--&lt;!&ndash;<li><a href="#">Another action</a></li>&ndash;&gt;-->
+                          <!--&lt;!&ndash;<li><a href="#">Something else here</a></li>&ndash;&gt;-->
+                          <!--&lt;!&ndash;<li class="divider"></li>&ndash;&gt;-->
+                          <!--&lt;!&ndash;<li><a href="#">Separated link</a></li>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--<a href="#" class="btn btn-default hidden-xs"><i class="fa fa-cog"></i></a>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+        <div id="messages" ng-show="message">{{ message }}</div>
+        <div class="container" ng-controller="FormComponentsController">
+            <div class="panel panel-midnightblue">
+                <div class="panel-heading">
+                    <h4>Add New Observation Step</h4>
+                    <!--<div class="options">   -->
+                        <!--<a href="javascript:;"><i class="fa fa-cog"></i></a>-->
+                        <!--<a href="javascript:;"><i class="fa fa-wrench"></i></a>-->
+                        <!--<a href="javascript:;" class="panel-collapse"><i class="fa fa-chevron-down"></i></a>-->
+                    <!--</div>-->
+                </div>
+                <div class="panel-body collapse in">
+                    <form name="frmTemplateStep"  ng-submit ="processForm()" class="form-horizontal row-border">
+                        <div id="name-group" class="form-group" ng-class="{ 'has-error' : errorName }">
+                            <div class="form-group" id="StepDescription">
+                                <label  class="col-sm-3 control-label">Step Description:</label>
+                                <div class="col-sm-6">
+                                    <input  name="stepDescription"
+                                            type="text"
+                                            placeholder="Step Description"
+                                            required
+                                            ng-model="formData.Description"
+                                            class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group" id="ViewableSetSize">
+                                <label class="col-sm-3 control-label">Viewable Set Size</label>
+                                <div class="col-sm-6">
+                                    <input name="viewableSetSize"
+                                           type="number"
+                                           placeholder="Viewable Set Size"
+                                           data-min="0"
+                                           required
+                                           ng-model="formData.ViewSetSize"
+                                           ng-change="validateDemoForm.digits"
+                                           class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group" id="StepType">
+                                <label class="col-sm-3 control-label">Step Type</label>
+                                <div class="col-sm-6">
+                                    <div class="radio">
+                                      <label>
+                                        <input icheck type="radio" name="stepType" id="stepTypeRadio" value="Numbers" ng-model="formData.Type">Numbers
+                                      </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input icheck type="radio" name="stepType" id="stepTypeRadio" value="Text" ng-model="formData.Type">Text
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        <div ng-repeat="option in formData.Options"  ng-show="formData.Type=='Text'">
+                            <div class="form-group" id={{element.id}}>
+                                <label  class="col-sm-3 control-label">Option Text</label>
+                                <div class="col-sm-2">
+                                    <input type="text" id="OptionName" ng-model="option.Name" class="form-control" />
+                                </div>
+                                <div>
+                                    <label class="radio-inline">
+                                        <input icheck type="radio" ng-model="option.Defect" id="isDefect" value="true"> Is Defect
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input icheck type="radio" ng-model="option.Defect" id="noDefect" value="false"> Not Defect
+                                    </label>
+                                    <button ng-click="addOption($event)">Add More Options</button>
+                                    <button ng-click="formData.Options.splice($index,1)">Remove</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div id="showNumbersForm" ng-show="formData.Type=='Numbers'">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Show Defect</label>
+                            <div class="col-sm-6">
+                                <div class="radio">
+                                    <label>
+                                        <input icheck type="radio" name="showDefect" id="showDefectYes" ng-model="formData.ShowDefect" value="Yes" checked>
+                                       Yes
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input icheck type="radio" name="showDefect" id="showDefectNo" ng-model="formData.ShowDefect" value="No">
+                                       No
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">LSL:</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="lsl" class="form-control" ng-model="formData.LowerSpecLimit">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">USL:</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="usl" class="form-control" ng-model="formData.UpperSpecLimit">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">LCL:</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="lcl" class="form-control" ng-model="formData.LowerControlLimit">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">UCL:</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="ucl" class="form-control" ng-model="formData.UpperControlLimit">
+                            </div>
+                        </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row">
+                                <div class="col-sm-6 col-sm-offset-3">
+                                    <div class="btn-toolbar">
+                                        <button class="btn-primary btn">Submit</button>
+                                        <button class="btn-default btn">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--<div class="container" ng-controller="TablesEditableController">-->
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-12">-->
+                            <!--<panel panel-class="panel-primary" data-heading="Options">-->
+                                <!--&lt;!&ndash;<panel-controls>&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<a href="javascript:;"><i class="fa fa-cog"></i></a>&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<a href="javascript:;"><i class="fa fa-wrench"></i></a>&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<a href=""><panel-control-collapse class="fa fa-chevron-down"></panel-control-collapse></a>&ndash;&gt;-->
+                                <!--&lt;!&ndash;</panel-controls>&ndash;&gt;-->
+                                <!--<table class="table table-bordered table-condensed">-->
+                                    <!--<tr style="font-weight: bold">-->
+                                        <!--<td style="width:35%">Text</td>-->
+                                        <!--<td style="width:20%">Default</td>-->
+                                        <!--<td style="width:20%">Is Defect</td>-->
+                                        <!--<td style="width:25%">Edit</td>-->
+                                    <!--</tr>-->
+                                    <!--<tr ng-repeat="optionText in optiontexts">-->
+                                        <!--<td>-->
+                                            <!--&lt;!&ndash; editable username (text with validation) &ndash;&gt;-->
+                                             <!--<span editable-text="optionText.optionText" e-name="name" e-form="rowform" e-required>-->
+                                            <!--{{ optionText.optionText || 'empty' }}-->
+                                            <!--</span>-->
+                                        <!--</td>-->
+                                        <!--<td>-->
+                                            <!--&lt;!&ndash; editable status (select-local) &ndash;&gt;-->
+                                             <!--<span editable-select="optionText.isDefault" e-name="optionTextDefault" e-form="rowform" e-ng-options="s.value as s.text for s in optionTextDefaults">-->
+                                             <!--&lt;!&ndash;{{ showStatus(user) }}&ndash;&gt;-->
+                                            <!--{{ showOptionTextDefault(optionText) }}-->
+                                            <!--</span>-->
+                                        <!--</td>-->
+                                        <!--<td>-->
+                                            <!--&lt;!&ndash; editable group (select-remote) &ndash;&gt;-->
+                                            <!--<span editable-select="optionText.isDefect" e-name="optionTextDefect" e-form="rowform" e-ng-options="g.value as g.text for g in optionTextDefects">-->
+                                              <!--&lt;!&ndash;{{ showGroup(user) }}&ndash;&gt;-->
+                                                <!--{{showOptionTextDefect(optionText)}}-->
+                                            <!--</span>-->
+                                        <!--</td>-->
+                                        <!--<td style="white-space: nowrap">-->
+                                            <!--&lt;!&ndash; form &ndash;&gt;-->
+                                            <!--<form editable-form name="rowform" onbeforesave="saveOption($data, optionText.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == optionText">-->
+                                                <!--<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-primary">-->
+                                                    <!--Save-->
+                                                <!--</button>-->
+                                                <!--<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">-->
+                                                    <!--Cancel-->
+                                                <!--</button>-->
+                                            <!--</form>-->
+                                            <!--<div class="buttons" ng-show="!rowform.$visible">-->
+                                                <!--<button class="btn btn-sm btn-primary" ng-click="rowform.$show()">Edit</button>-->
+                                                <!--<button class="btn btn-sm btn-danger" ng-click="removeOption($index)">Delete</button>-->
+                                            <!--</div>-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                <!--</table>-->
+                                <!--<button class="btn btn-default" ng-click="addOption()">Add row</button>-->
+                            <!--</panel>-->
+                        <!--</div>-->
+                    <!--</div>-->
+            <!--</div>  end container --></div>
