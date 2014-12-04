@@ -49,7 +49,7 @@ angular
             children: [
                 {
                     label: 'New Template',
-                    url: '#/'
+                    url: '#/_wd-form-addtemplate'
                 },
                 {
                     label: 'Edit Template',

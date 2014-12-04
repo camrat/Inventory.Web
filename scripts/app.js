@@ -61,7 +61,11 @@ angular
     'theme.auth-service',
     'theme.form-observationtemplatestep',
     'theme.form-itemupload',
-    'theme.tables-ng-itemgrid'
+    'theme.tables-ng-itemgrid',
+    'theme.form-observationtemplate',
+      'ang-drag-drop',
+      'dndLists',
+      'lvl.services'
   ])
   .controller('MainController', ['$scope', '$global', '$timeout', 'progressLoader', '$location', function ($scope, $global, $timeout, progressLoader, $location) {
     $scope.style_fixedHeader = $global.get('fixedHeader');
