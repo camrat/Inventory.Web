@@ -65,7 +65,9 @@ angular
     'theme.form-observationtemplate',
       'ang-drag-drop',
       'dndLists',
-      'lvl.services'
+      'lvl.services',
+
+
   ])
   .controller('MainController', ['$scope', '$global', '$timeout', 'progressLoader', '$location', function ($scope, $global, $timeout, progressLoader, $location) {
     $scope.style_fixedHeader = $global.get('fixedHeader');
